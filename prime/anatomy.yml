@@ -1,0 +1,9 @@
+- hosts: localhost
+  become: true
+  pre_tasks:
+  vars:
+  tasks:
+    - name: Install zsh
+      apt: name=zsh
+    tags:
+      - zsh

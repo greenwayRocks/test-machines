@@ -1,0 +1,7 @@
+#!/bin/bash -
+
+docker build -t prod .
+docker run --rm -it prod bash
+
+# destroy 5 containers
+# docker images | tr -s " " | awk -F' ' '{ print  }' | tail +2 | head -n5 | xargs docker image rm

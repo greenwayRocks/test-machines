@@ -1,0 +1,22 @@
+- hosts: localhost
+  become: true
+  tasks:
+
+  - name: Install zsh
+    apt: name=zsh
+
+  - name: Change shell
+    shell: chsh -s `which zsh`
+
+  - name: Install oh-my-zsh plugin (++)
+    shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+  - name: Install autosuggestions plugin (--)
+    shell: git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
+
+  - name: Update zshrc
+    shell: sed -i 's/(git/(git zsh-autosuggestions/' ~/.zshrc
+
+  - name: Coconut oil stuff
+    shell: echo 'alias ap="ansible-playbook playbook.yml"' | tee -a ~/.zshrc
+

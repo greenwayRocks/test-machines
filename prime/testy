@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# machine prep (ansible, git, vim)
+cd /usr/local/bin
+apt update && apt install -y software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt update && apt install -y curl git ansible build-essential vim tree
+
+# shell setup
+apt install -y zsh
+chsh -s `which zsh`
+curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
+sed -i 's/(git/(git zsh-autosuggestions/' ~/.zshrc
+
+# will it work fine?

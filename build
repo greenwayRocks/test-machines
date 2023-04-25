@@ -1,0 +1,41 @@
+#!/bin/bash -
+
+## ---
+# docker image rm -f prod
+# docker container rm -f prodigy &>/dev/null
+
+# { docker build -t prod . && docker container run --name prodigy prod:latest && sleep 5 && \
+# docker exec prodigy bash; }
+## ------
+
+#
+# destroy containers (spaces out sometimes, check: $ df -h )
+# docker images | tail +2 | tr -s " " | awk -F' ' '{ print $3 }' | xargs -i -n1 docker image rm -f {}
+# PROS: spaced out
+# CONS: creates enormous delay
+# Just delete one(or MORE) ? : -- | head -n1 | --
+#
+
+
+# docker image rm -f prodigy:latest &> /dev/null
+function build_again() {
+  # destroy prev image and build again!
+  echo "[--] Deleting prev images [--]"
+  docker image rm -f prodigy
+  echo "[++] Done [++]"
+  docker build -t prodigy .
+}
+
+[[ -f Dockerfile ]] || exit 1
+
+docker images | grep -Eq prodigy
+if (( $? == 0 ))
+then
+  # build_again
+  :
+else
+  # build
+  docker build -t prodigy .
+fi
+
+docker container run --rm -it prodigy
